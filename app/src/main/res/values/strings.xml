@@ -1,0 +1,31 @@
+<resources xmlns:xliff="http://schemas.android.com/tools">
+    <string name="app_name">Weather</string>
+
+    <string name="action_previous">Previous</string>
+    <string name="title_template_step">Step <xliff:g id="step_number"></xliff:g>: page</string>
+    <string name="title_template_step_2">Step <xliff:g id="step_number">%1$d</xliff:g>: Brand New</string>
+    <string name="action_finish">Finish</string>
+    <string name="action_next">Next</string>
+    <string name="title_screen_slide">Screen Slide</string>
+
+    <string name="location">Location</string>
+    <string name="date_time">Date Time</string>
+    <string name="temperature">Tp</string>
+    <string name="condition">Condition</string>
+    <string name="current_day">Day</string>
+    <string name="current_date">Date</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="forecast_day">Day</string>
+    <string name="forecast_text">Text</string>
+    <string name="forecast_high">High</string>
+    <string name="forecast_low">Low</string>
+    <string name="current_wind">Wind</string>
+    <string name="description">Text</string>
+    <string name="current_high_temp">high</string>
+    <string name="current_low_temp">low</string>
+    <string name="current_lat">Lat</string>
+    <string name="current_long">Long</string>
+    <string name="forecast">Forecast</string>
+</resources>
