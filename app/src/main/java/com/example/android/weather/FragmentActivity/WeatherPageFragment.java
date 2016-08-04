@@ -72,8 +72,6 @@ public class WeatherPageFragment extends Fragment implements WeatherServiceCallb
         tvCurrentDate=(TextView)rootView.findViewById(R.id.tvDate);
         tvHighTemp=(TextView)rootView.findViewById(R.id.tvHighTemp);
         tvLowTemp=(TextView)rootView.findViewById(R.id.tvLowTemp);
-        tvLat=(TextView)rootView.findViewById(R.id.tvLat);
-        tvLong=(TextView)rootView.findViewById(R.id.tvLong);
         tvSunrise=(TextView)rootView.findViewById(R.id.tvSunrise);
         tvSunset=(TextView)rootView.findViewById(R.id.tvSunset);
         tvWind=(TextView)rootView.findViewById(R.id.tvWind);
