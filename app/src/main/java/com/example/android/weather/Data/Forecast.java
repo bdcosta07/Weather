@@ -11,12 +11,14 @@ public class Forecast {
     private String description;
     private String day;
 
-    public Forecast(int imageId, String day, int code, int high, int low, String description) {
+    public Forecast(String day,int high, int low, String description) {
         this.day = day;
-        this.code = code;
         this.high = high;
         this.low = low;
         this.description = description;
+    }
+
+    public Forecast() {
     }
 
     public int getImageId() {
@@ -25,9 +27,6 @@ public class Forecast {
 
     public void setImageId(int imageId) {
         this.imageId = imageId;
-    }
-
-    public Forecast() {
     }
 
     public String getDay() {

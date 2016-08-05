@@ -1,6 +1,6 @@
 package com.example.android.weather.FragmentActivity;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,11 +16,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.android.weather.AppController;
-import com.example.android.weather.Data.Channel;
+import com.example.android.weather.Activity.ForecastActivity;
+import com.example.android.weather.VollyAppController.AppController;
 import com.example.android.weather.R;
-import com.example.android.weather.Service.WeatherServiceCallback;
-import com.example.android.weather.Service.YahooWeatherService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,16 +26,14 @@ import org.json.JSONObject;
 /**
  * Created by Bridget on 8/2/2016.
  */
-public class WeatherPageFragment extends Fragment implements WeatherServiceCallback {
+public class WeatherPageFragment extends Fragment {
     TextView tvTemperature, tvLocation, tvDescription,tvCurrentDate,tvCurrentDay;
-    TextView tvHighTemp, tvLowTemp,tvWind,tvHumidity,tvLat,tvLong, tvSunrise, tvSunset, tvCelFar;
+    TextView tvHighTemp, tvLowTemp,tvWind,tvHumidity,tvForecast, tvSunrise, tvSunset, tvCelFar;
     ImageView imgWeather;
-    YahooWeatherService yahooService;
-    ProgressDialog dialog;
+
     String url="https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22Dhaka%22)&format=json";
 
     public static final String ARG_PAGE = "page";
-    TextView text1;
 
     private int mPageNumber;
 
@@ -61,7 +57,7 @@ public class WeatherPageFragment extends Fragment implements WeatherServiceCallb
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_weather_page, container, false);
 
@@ -81,6 +77,16 @@ public class WeatherPageFragment extends Fragment implements WeatherServiceCallb
 
         getCurrentWeather();
 
+        tvForecast=(TextView)rootView.findViewById(R.id.tvShowForecast);
+        tvForecast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), ForecastActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         /*yahooService=new YahooWeatherService(this);
         yahooService.refreshWeather("Bangladesh, Dhaka");*/
 
@@ -93,17 +99,7 @@ public class WeatherPageFragment extends Fragment implements WeatherServiceCallb
         return rootView;
     }
 
-    @Override
-    public void ServiceSuccess(Channel channel) {
-        dialog.hide();
-    }
 
-    @Override
-    public void ServiceFailure(Exception exception) {
-        dialog.hide();
-        Toast.makeText(getActivity(),"Sorry",Toast.LENGTH_SHORT).show();
-
-    }
 
     public int getPageNumber() {
         return mPageNumber;
@@ -122,6 +118,12 @@ public class WeatherPageFragment extends Fragment implements WeatherServiceCallb
                     JSONObject unit=channel.getJSONObject("units");
                     String celFar=unit.getString("temperature");
 
+                    JSONObject atmosphere=channel.getJSONObject("atmosphere");
+                    String humidity=atmosphere.getString("humidity");
+
+                    JSONObject astronomy=channel.getJSONObject("astronomy");
+                    String sunrise=astronomy.getString("sunrise");
+                    String sunset=astronomy.getString("sunset");
                     JSONObject item = channel.getJSONObject("item");
                     JSONObject condition=item.getJSONObject("condition");
                     String temperature = condition.getString("temp");
@@ -135,16 +137,18 @@ public class WeatherPageFragment extends Fragment implements WeatherServiceCallb
                     String speed=wind.getString("speed");
 
                     tvCelFar.setText(celFar);
-                    tvTemperature.setText(temperature);
+                    tvTemperature.setText(temperature+"°");
                     tvDescription.setText(text);
                     tvCurrentDate.setText(date);
                     tvLocation.setText(city);
-                    tvWind.setText(speed);
+                    tvWind.setText("Wind  "+speed+"%");
+                    tvHumidity.setText("Humidity  "+humidity+"mph");
+                    tvSunrise.setText("Sunrise   "+sunrise);
+                    tvSunset.setText("Sunset    "+sunset);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 
 
             }

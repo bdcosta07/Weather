@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.android.weather.MainActivity;
+import com.example.android.weather.Activity.MainActivity;
 import com.example.android.weather.R;
 
 public class WeatherActivity extends FragmentActivity {
@@ -114,7 +114,7 @@ public class WeatherActivity extends FragmentActivity {
             switch (position)
             {
                 case 1:
-                    return ForecastPageFragment.newInstance(position);
+                    return HourlyWeatherFragment.newInstance(position);
 
                 default:
                     return WeatherPageFragment.create(position);

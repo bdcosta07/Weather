@@ -14,25 +14,23 @@ import com.example.android.weather.R;
 
 import java.util.ArrayList;
 
-public class ForecastPageFragment extends Fragment {
+public class HourlyWeatherFragment extends Fragment {
 
-    ListView listView;
-    ArrayList<Forecast> dailyForecastList;
-    ForecastCustomAdapter forecastAdapter;
-    Forecast forecast;
+
 
     private static final String ARG_PAGE = "page";
 
     // TODO: Rename and change types of parameters
     private int mPageNumber;
 
-    public ForecastPageFragment() {
+    public HourlyWeatherFragment() {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static ForecastPageFragment newInstance(int pageNumber) {
-        ForecastPageFragment fragment = new ForecastPageFragment();
+    public static HourlyWeatherFragment newInstance(int pageNumber) {
+        HourlyWeatherFragment fragment = new HourlyWeatherFragment();
         Bundle args = new Bundle();
+
         args.putInt(ARG_PAGE, pageNumber);
         fragment.setArguments(args);
         return fragment;
@@ -55,10 +53,7 @@ public class ForecastPageFragment extends Fragment {
         TextView text = (TextView) rootView.findViewById(R.id.text3);
         text.setText(getString(R.string.title_template_step_2, mPageNumber));
 
-        listView=(ListView)rootView.findViewById(R.id.lvForecastList);
 
-        dailyForecastList=new ArrayList<>();
-        forecastAdapter=new ForecastCustomAdapter(getActivity(),dailyForecastList);
         // Inflate the layout for this fragment
         return rootView;
     }
