@@ -5,5 +5,5 @@
 
     <size android:height="12dip" android:width="12dip"/>
 
-    <solid android:color="@color/all_track_color"/>
+    <solid android:color="@color/butter_bar_light"/>
 </shape>
