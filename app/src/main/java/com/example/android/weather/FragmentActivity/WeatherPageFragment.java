@@ -24,6 +24,7 @@ import com.example.android.weather.Activity.ForecastActivity;
 import com.example.android.weather.Settings.SettingsActivity;
 import com.example.android.weather.VollyAppController.AppController;
 import com.example.android.weather.R;
+import com.example.android.weather.util.AppUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -122,7 +123,7 @@ public class WeatherPageFragment extends Fragment {
                     String sunset=astronomy.getString("sunset");
                     JSONObject item = channel.getJSONObject("item");
                     JSONObject condition=item.getJSONObject("condition");
-                    String temperature = condition.getString("temp");
+                    String temperature = AppUtils.formatTemperature(getActivity(), Double.parseDouble(condition.getString("temp")));
                     String text=condition.getString("text");
                     String date=condition.getString("date");
 
@@ -133,7 +134,7 @@ public class WeatherPageFragment extends Fragment {
                     String speed=wind.getString("speed");
 
                     tvCelFar.setText(celFar);
-                    tvTemperature.setText(temperature+"°");
+                    tvTemperature.setText(temperature);
                     tvDescription.setText(text);
                     tvCurrentDate.setText(date);
                     tvLocation.setText(city);

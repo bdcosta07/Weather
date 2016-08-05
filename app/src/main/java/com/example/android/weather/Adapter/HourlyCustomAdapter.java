@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class HourlyCustomAdapter extends ArrayAdapter {
     static private class ViewHolder{
         ImageView imgDailyWeather;
-        TextView tvHourlyTime, tvHourlyDesc, tvHourlyHighTemp, tvHourlyLowTemp,tvhourlyIcon;
+        TextView tvTemperature,tvHourlyTime, tvHourlyDesc, tvHourlyHighTemp, tvHourlyLowTemp,tvhourlyIcon;
         Typeface weatherFont;
     }
     ArrayList<HourlyWeather> hourlyWeathertList;
@@ -48,6 +48,7 @@ public class HourlyCustomAdapter extends ArrayAdapter {
             viewHolder.tvHourlyDesc=(TextView)rowView.findViewById(R.id.tvDescription);
             viewHolder.tvHourlyHighTemp=(TextView)rowView.findViewById(R.id.tvHigh);
             viewHolder.tvHourlyLowTemp=(TextView)rowView.findViewById(R.id.tvLow);
+            viewHolder.tvTemperature=(TextView)rowView.findViewById(R.id.tvTemp);
             viewHolder.tvhourlyIcon=(TextView)rowView.findViewById(R.id.tvWeatherIcon);
             viewHolder.weatherFont = Typeface.createFromAsset(context.getAssets(), "fonts/weather.ttf");
             viewHolder.tvhourlyIcon.setTypeface(viewHolder.weatherFont);
@@ -59,9 +60,11 @@ public class HourlyCustomAdapter extends ArrayAdapter {
 
         String highTemp=String.valueOf(hourlyWeathertList.get(position).getHighTemp());
         String lowTemp=String.valueOf(hourlyWeathertList.get(position).getLowTemp());
+        String temp=String.valueOf(hourlyWeathertList.get(position).getTemperature());
 
         viewHolder.tvHourlyTime.setText(hourlyWeathertList.get(position).getTime());
         viewHolder.tvHourlyDesc.setText(hourlyWeathertList.get(position).getDescription());
+        viewHolder.tvTemperature.setText(temp);
         viewHolder.tvHourlyHighTemp.setText(highTemp+"° ↑");
         viewHolder.tvHourlyLowTemp.setText(lowTemp+"° ↓");
         viewHolder.tvhourlyIcon.setText(hourlyWeathertList.get(position).getWeatherIcon());
