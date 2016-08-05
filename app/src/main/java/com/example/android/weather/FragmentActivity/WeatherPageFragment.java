@@ -1,9 +1,12 @@
 package com.example.android.weather.FragmentActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +33,7 @@ public class WeatherPageFragment extends Fragment {
     TextView tvTemperature, tvLocation, tvDescription,tvCurrentDate,tvCurrentDay;
     TextView tvHighTemp, tvLowTemp,tvWind,tvHumidity,tvForecast, tvSunrise, tvSunset, tvCelFar;
     ImageView imgWeather;
-
+    ProgressDialog dialog;
     String url="https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22Dhaka%22)&format=json";
 
     public static final String ARG_PAGE = "page";
@@ -86,16 +89,6 @@ public class WeatherPageFragment extends Fragment {
             }
         });
 
-
-        /*yahooService=new YahooWeatherService(this);
-        yahooService.refreshWeather("Bangladesh, Dhaka");*/
-
-        /*dialog=new ProgressDialog(getActivity());
-        dialog.setMessage("Loading...");
-        dialog.show();*/
-
-        //tvTemperature.setText("524 nikhjh");
-
         return rootView;
     }
 
@@ -108,7 +101,7 @@ public class WeatherPageFragment extends Fragment {
 
     //get current weather data (JSON)
     public void getCurrentWeather(){
-        JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
