@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.IOSched">
-        <activity android:name=".FragmentActivity.WeatherActivity">
+        <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,14 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.MainActivity"
-            android:label="@string/title_screen_slide"
-            android:parentActivityName=".Activity.MainActivity"
-            android:uiOptions="splitActionBarWhenNarrow">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activity.MainActivity" />
-        </activity>
+            android:name=".FragmentActivity.WeatherActivity"/>
         <activity android:name=".Activity.ForecastActivity"></activity>
         <activity
             android:name=".Settings.SettingsActivity"
