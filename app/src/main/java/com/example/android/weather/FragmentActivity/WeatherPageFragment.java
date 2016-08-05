@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ public class WeatherPageFragment extends Fragment implements WeatherServiceCallb
     ImageView imgWeather;
     YahooWeatherService yahooService;
     ProgressDialog dialog;
+    private Toolbar mToolbar;
     String url="https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22Dhaka%22)&format=json";
 
     public static final String ARG_PAGE = "page";
@@ -79,6 +82,12 @@ public class WeatherPageFragment extends Fragment implements WeatherServiceCallb
         tvCelFar=(TextView)rootView.findViewById(R.id.tvF_C);
         imgWeather=(ImageView) rootView.findViewById(R.id.weatherImg);
 
+//        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar_actionbar);
+//
+//        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+//        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         getCurrentWeather();
 
         /*yahooService=new YahooWeatherService(this);
@@ -112,7 +121,7 @@ public class WeatherPageFragment extends Fragment implements WeatherServiceCallb
 
     //get current weather data (JSON)
     public void getCurrentWeather(){
-        JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
