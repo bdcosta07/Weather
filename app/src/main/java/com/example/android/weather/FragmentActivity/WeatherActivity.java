@@ -20,8 +20,9 @@ import android.widget.LinearLayout;
 import com.example.android.weather.Activity.MainActivity;
 import com.example.android.weather.R;
 import com.example.android.weather.Settings.SettingsActivity;
+import com.example.android.weather.ui.BaseActivity;
 
-public class WeatherActivity extends FragmentActivity {
+public class WeatherActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener {
 
     private static final int NUM_PAGES = 2;
     private ViewPager mPager;
@@ -102,26 +103,21 @@ public class WeatherActivity extends FragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu);
+
+        Toolbar toolbar=getActionBarToolbar();
+        toolbar.inflateMenu(R.menu.menu);
+        toolbar.setOnMenuItemClickListener(this);
         return true;
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
             case R.id.menu_setting:
                 startActivity(new Intent(this, SettingsActivity.class));
-                break;
-
-            default:
+                return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 }

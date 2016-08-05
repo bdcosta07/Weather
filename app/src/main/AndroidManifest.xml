@@ -28,7 +28,15 @@
                 android:value=".Activity.MainActivity" />
         </activity>
         <activity android:name=".Activity.ForecastActivity"></activity>
-        <activity android:name=".Settings.SettingsActivity"></activity>
+        <activity
+            android:name=".Settings.SettingsActivity"
+            android:label="@string/menu_item_settings"
+            android:parentActivityName=".FragmentActivity.WeatherActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FragmentActivity.WeatherActivity" />
+        </activity>
     </application>
 
 </manifest>
