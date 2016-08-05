@@ -18,7 +18,10 @@ package com.example.android.weather.Settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.ParcelUuid;
 import android.preference.PreferenceManager;
+
+import com.example.android.weather.R;
 
 /**
  * Utilities and constants related to app settings_prefs.
@@ -26,6 +29,13 @@ import android.preference.PreferenceManager;
 public class SettingsUtils {
 
     //private static final String TAG = makeLogTag(SettingsUtils.class);
+
+    public static final String PREF_LOCATION = "pref_location";
+    public static final String PREF_TEMPERATURE_UNIT = "pref_temperature_unit";
+    public static final String PREF_LENGTH_UNIT = "pref_length_unit";
+    public static final String PREF_SPEED_UNIT = "pref_speed_unit";
+    public static final String PREF_PRESSURE_UNIT = "pref_pressure_unit";
+    public static final String PREF_WIND_DIRECTION_FORMAT = "pref_wind_direction_format";
 
     /**
      * Helper method to register a settings_prefs listener. This method does not automatically handle
@@ -52,5 +62,35 @@ public class SettingsUtils {
                                                                   SharedPreferences.OnSharedPreferenceChangeListener listener) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    public static String PreferredLocation(Context context){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(PREF_LOCATION, context.getResources().getString(R.string.pref_location_default));
+    }
+
+    public static String PreferredTemperatureUnit(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(PREF_TEMPERATURE_UNIT, context.getResources().getString(R.string.pref_temperature_unit_default));
+    }
+
+    public static String PreferredLengthUnit(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(PREF_LENGTH_UNIT, context.getResources().getString(R.string.pref_temperature_unit_default));
+    }
+
+    public static String PreferredSpeedUnit(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(PREF_SPEED_UNIT, context.getResources().getString(R.string.pref_speed_unit_default));
+    }
+
+    public static String PreferredPressureUnit(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(PREF_PRESSURE_UNIT, context.getResources().getString(R.string.pref_pressure_unit_default));
+    }
+
+    public static String PreferredWindDirectionFormat(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(PREF_WIND_DIRECTION_FORMAT, context.getResources().getString(R.string.pref_wind_direction_format_default));
     }
 }

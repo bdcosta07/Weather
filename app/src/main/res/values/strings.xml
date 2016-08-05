@@ -98,4 +98,47 @@
     <string name="wind_direction_north_north_west">NNW</string>
     <string name="msg_too_many_requests">Too many requests. Please try again.</string>
 
+    <!--Settings default value-->
+    <string name="pref_location_default">Dhaka</string>
+    <string name="pref_temperature_unit_default">C</string>
+    <string name="pref_length_unit_default">mm</string>
+    <string name="pref_speed_unit_default">m/s</string>
+    <string name="pref_pressure_unit_default">hPa</string>
+    <string name="pref_wind_direction_format_default">arrow</string>
+
+    <!--Array values-->
+    <string name="temperature_unit_value_c">C</string>
+    <string name="temperature_unit_value_f">F</string>
+    <string name="temperature_unit_value_k">K</string>
+
+    <string name="length_unit_value_mm">mm</string>
+    <string name="length_unit_value_in">in</string>
+
+    <string name="speed_unit_value_mps">m/s</string>
+    <string name="speed_unit_value_kph">kph</string>
+    <string name="speed_unit_value_mph">mph</string>
+
+    <string name="pressure_unit_value_hpa">hpa</string>
+    <string name="pressure_unit_value_kpa">kpa</string>
+    <string name="pressure_unit_value_mmhg">mm hg</string>
+
+    <!-- Language-specific constants -->
+    <string name="today">Today</string>
+
+    <!-- For labelling tomorrow's forecast [CHAR LIMIT=15] -->
+    <string name="tomorrow">Tomorrow</string>
+
+    <!-- Date format [CHAR LIMIT=NONE] -->
+    <string name="format_full_friendly_date"><xliff:g id="month">%1$s</xliff:g>, <xliff:g id="day">%2$s</xliff:g></string>
+    <!-- Strings for formatting weather-related data -->
+    <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>%2$s</string>
+
+    <!-- Windspeed formats -->
+    <!-- Wind in mph [CHAR LIMIT=25] -->
+    <string name="format_wind_mph">Wind: <xliff:g id="speed">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
+    <!-- Wind in kph [CHAR LIMIT=25] -->
+    <string name="format_wind_kmh">Wind: <xliff:g id="speed">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g></string>
+    <!-- Wind in mps [CHAR LIMIT=25] -->
+    <string name="format_wind_mps">Wind: <xliff:g id="speed">%1$1.0f</xliff:g> m/s <xliff:g id="direction">%2$s</xliff:g></string>
+
 </resources>
