@@ -17,13 +17,15 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolber"/>
+        android:layout_below="@id/toolber"
+        android:layout_above="@+id/viewPagerIndicator"/>
 
     <RelativeLayout
         android:id="@+id/viewPagerIndicator"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="30dp"
         android:layout_alignParentBottom="true"
+
         android:layout_marginTop="5dp"
         android:gravity="center">
 

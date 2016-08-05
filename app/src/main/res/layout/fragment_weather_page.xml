@@ -170,15 +170,5 @@
         android:layout_centerVertical="true"
         android:layout_alignEnd="@+id/tvTemperature" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
-        android:onClick="onBtn"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/tvF_C" />
-
 
 </RelativeLayout>

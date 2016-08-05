@@ -35,10 +35,9 @@ public class WeatherPageFragment extends Fragment {
     TextView tvTemperature, tvLocation, tvDescription,tvCurrentDate,tvCurrentDay;
     TextView tvHighTemp, tvLowTemp,tvWind,tvHumidity,tvForecast, tvSunrise, tvSunset, tvCelFar;
     ImageView imgWeather;
-    Button testBtn;
-    ProgressDialog dialog;
-    String url="https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22Dhaka%22)&format=json";
 
+    String url="https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22Dhaka%22)&format=json";
+    String url2="http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=3f7228abe9f7983448ac7d087fa3b1ac";
     public static final String ARG_PAGE = "page";
 
     private int mPageNumber;
@@ -81,16 +80,8 @@ public class WeatherPageFragment extends Fragment {
         tvCelFar=(TextView)rootView.findViewById(R.id.tvF_C);
         imgWeather=(ImageView) rootView.findViewById(R.id.weatherImg);
 
-        testBtn=(Button)rootView.findViewById(R.id.button);
-
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-            }
-        });
-
         getCurrentWeather();
+        getCurrentHighLowTemp();
 
         tvForecast=(TextView)rootView.findViewById(R.id.tvShowForecast);
         tvForecast.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +141,38 @@ public class WeatherPageFragment extends Fragment {
                     tvHumidity.setText("Humidity  "+humidity+"mph");
                     tvSunrise.setText("Sunrise   "+sunrise);
                     tvSunset.setText("Sunset    "+sunset);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error instanceof NoConnectionError){
+                    Toast.makeText(getActivity(),"Check your internet connection",Toast.LENGTH_SHORT);
+
+                }
+            }
+        }
+        );
+        AppController.getInstance().addToRequestQueue(request);
+    }
+
+
+    public void getCurrentHighLowTemp(){
+        JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject main=response.getJSONObject("main");
+                    double highTemp=main.getDouble("temp_max");
+                    double lowTemp=main.getDouble("temp_min");
+
+                    tvHighTemp.setText(Double.toString(highTemp));
+                    tvLowTemp.setText(Double.toString(lowTemp));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

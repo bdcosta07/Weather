@@ -1,6 +1,7 @@
 package com.example.android.weather.Adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,8 @@ import java.util.ArrayList;
 public class HourlyCustomAdapter extends ArrayAdapter {
     static private class ViewHolder{
         ImageView imgDailyWeather;
-        TextView tvHourlyTime, tvHourlyDesc, tvHourlyHighTemp, tvHourlyLowTemp;
-
+        TextView tvHourlyTime, tvHourlyDesc, tvHourlyHighTemp, tvHourlyLowTemp,tvhourlyIcon;
+        Typeface weatherFont;
     }
     ArrayList<HourlyWeather> hourlyWeathertList;
     Context context;
@@ -47,6 +48,9 @@ public class HourlyCustomAdapter extends ArrayAdapter {
             viewHolder.tvHourlyDesc=(TextView)rowView.findViewById(R.id.tvDescription);
             viewHolder.tvHourlyHighTemp=(TextView)rowView.findViewById(R.id.tvHigh);
             viewHolder.tvHourlyLowTemp=(TextView)rowView.findViewById(R.id.tvLow);
+            viewHolder.tvhourlyIcon=(TextView)rowView.findViewById(R.id.tvWeatherIcon);
+            viewHolder.weatherFont = Typeface.createFromAsset(context.getAssets(), "fonts/weather.ttf");
+            viewHolder.tvhourlyIcon.setTypeface(viewHolder.weatherFont);
             //viewHolder.imgForecastWeather=(ImageView) rowView.findViewById(R.id.forecastImg);
 
             rowView.setTag(viewHolder);
@@ -60,6 +64,7 @@ public class HourlyCustomAdapter extends ArrayAdapter {
         viewHolder.tvHourlyDesc.setText(hourlyWeathertList.get(position).getDescription());
         viewHolder.tvHourlyHighTemp.setText(highTemp+"° ↑");
         viewHolder.tvHourlyLowTemp.setText(lowTemp+"° ↓");
+        viewHolder.tvhourlyIcon.setText(hourlyWeathertList.get(position).getWeatherIcon());
 
         return rowView;
     }
