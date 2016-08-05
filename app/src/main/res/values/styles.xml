@@ -54,7 +54,7 @@
 
     <style name="Theme.IOSched" parent="Theme.IOSched.Base" />
 
-
+    <style name="Theme.IOSched.listViewStyle" parent="Theme.AppCompat.Light.NoActionBar"></style>
 
     <style name="Theme.IOSched.Widget" parent="FrameworkRoot.Widget">
     </style>
@@ -78,7 +78,6 @@
     <!-- Body content -->
     <style name="TextHeader">
         <item name="android:textSize">@dimen/text_size_large</item>
-        <item name="android:textStyle">@integer/font_textStyle_medium</item>
         <item name="android:fontFamily">@string/font_fontFamily_medium</item>
         <item name="android:textColor">@color/body_text_1</item>
         <item name="android:ellipsize">end</item>

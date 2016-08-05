@@ -41,26 +41,26 @@ public class ForecastActivity extends AppCompatActivity {
         getForecastWeather();
     }
 
-    public void getForecastWeather(){
-        JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
+    public void getForecastWeather() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONObject query=response.getJSONObject("query");
-                    JSONObject result=query.getJSONObject("results");
-                    JSONObject channel=result.getJSONObject("channel");
-                    JSONObject item=channel.getJSONObject("item");
-                    JSONArray forecast=item.getJSONArray("forecast");
+                    JSONObject query = response.getJSONObject("query");
+                    JSONObject result = query.getJSONObject("results");
+                    JSONObject channel = result.getJSONObject("channel");
+                    JSONObject item = channel.getJSONObject("item");
+                    JSONArray forecast = item.getJSONArray("forecast");
 
-                    for (int i=0; i<forecast.length();i++){
-                        JSONObject jsonObject=forecast.getJSONObject(i);
+                    for (int i = 0; i < forecast.length(); i++) {
+                        JSONObject jsonObject = forecast.getJSONObject(i);
 
-                        String day=jsonObject.getString("day");
-                        int highTemp =Integer.parseInt(jsonObject.getString("high"));
-                        int lowTemp =Integer.parseInt(jsonObject.getString("low"));
-                        String description=jsonObject.getString("text");
+                        String day = jsonObject.getString("day");
+                        int highTemp = Integer.parseInt(jsonObject.getString("high"));
+                        int lowTemp = Integer.parseInt(jsonObject.getString("low"));
+                        String description = jsonObject.getString("text");
 
-                        Forecast forecastClass=new Forecast();
+                        Forecast forecastClass = new Forecast();
                         forecastClass.setDay(day);
                         forecastClass.setHigh(highTemp);
                         forecastClass.setLow(lowTemp);
@@ -78,15 +78,16 @@ public class ForecastActivity extends AppCompatActivity {
                 }
 
             }
-        },new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(error instanceof NoConnectionError){
-                    Toast.makeText(ForecastActivity.this,"Check your internet connection",Toast.LENGTH_SHORT);
+                if (error instanceof NoConnectionError) {
+                    Toast.makeText(ForecastActivity.this, "Check your internet connection", Toast.LENGTH_SHORT);
 
                 }
             }
         });
+
         AppController.getInstance().addToRequestQueue(request);
     }
 

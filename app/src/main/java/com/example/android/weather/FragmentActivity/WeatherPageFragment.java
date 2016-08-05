@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.android.weather.Activity.ForecastActivity;
+import com.example.android.weather.Settings.SettingsActivity;
 import com.example.android.weather.VollyAppController.AppController;
 import com.example.android.weather.R;
 
@@ -33,6 +35,7 @@ public class WeatherPageFragment extends Fragment {
     TextView tvTemperature, tvLocation, tvDescription,tvCurrentDate,tvCurrentDay;
     TextView tvHighTemp, tvLowTemp,tvWind,tvHumidity,tvForecast, tvSunrise, tvSunset, tvCelFar;
     ImageView imgWeather;
+    Button testBtn;
     ProgressDialog dialog;
     String url="https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22Dhaka%22)&format=json";
 
@@ -77,6 +80,15 @@ public class WeatherPageFragment extends Fragment {
         tvHumidity=(TextView)rootView.findViewById(R.id.tvHumidity);
         tvCelFar=(TextView)rootView.findViewById(R.id.tvF_C);
         imgWeather=(ImageView) rootView.findViewById(R.id.weatherImg);
+
+        testBtn=(Button)rootView.findViewById(R.id.button);
+
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+            }
+        });
 
         getCurrentWeather();
 
