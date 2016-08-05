@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NoConnectionError;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ForecastActivity extends AppCompatActivity {
+    TextView tvLocation,tvNextDays;
     ListView listView;
     ArrayList<Forecast> forecastList;
     ForecastCustomAdapter forecastAdapter;
@@ -32,6 +34,9 @@ public class ForecastActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forecast);
+
+        tvLocation=(TextView)findViewById(R.id.tvLocation);
+        tvNextDays=(TextView)findViewById(R.id.tvNextDays);
 
         listView=(ListView)findViewById(R.id.lvForecastList);
 
@@ -51,6 +56,12 @@ public class ForecastActivity extends AppCompatActivity {
                     JSONObject channel = result.getJSONObject("channel");
                     JSONObject item = channel.getJSONObject("item");
                     JSONArray forecast = item.getJSONArray("forecast");
+
+                    JSONObject location=channel.getJSONObject("location");
+                    String city=location.getString("city");
+
+                    tvLocation.setText(city);
+                    tvNextDays.setText("Next 10 days");
 
                     for (int i = 0; i < forecast.length(); i++) {
                         JSONObject jsonObject = forecast.getJSONObject(i);
