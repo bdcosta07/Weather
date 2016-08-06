@@ -7,6 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/splash_back2"
     tools:context=".Activity.SplashActivity">
 
 
@@ -59,8 +60,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:layout_below="@+id/tvAppName"
-        android:src="@drawable/art_clear"
+        android:src="@drawable/sunshine1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp" />
+        android:layout_marginTop="25dp" />
 
 </RelativeLayout>
