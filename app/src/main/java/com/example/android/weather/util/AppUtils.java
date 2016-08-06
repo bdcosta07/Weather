@@ -236,6 +236,52 @@ public class AppUtils {
         return -1;
     }
 
+    public static int getArtResourceForYahooWeatherCondition(int weatherId){
+        if (weatherId==3)
+            return R.drawable.severelthunderstoms;
+        if (weatherId==4)
+            return R.drawable.thunderstorms;
+        else if(weatherId==9)
+            return R.drawable.drizzle;
+        else if (weatherId==8)
+            return R.drawable.freezingdrizzle;
+        else if (weatherId==11)
+            return R.drawable.showers;
+        else if ((weatherId==27)||(weatherId==28))
+            return R.drawable.mostlycloudy;
+        else if (weatherId==26)
+            return R.drawable.cloudy;
+        else if (weatherId==32)
+            return R.drawable.sunny;
+        else if (weatherId==36)
+            return R.drawable.hot;
+        else if (weatherId==31)
+            return R.drawable.clear;
+        else if (weatherId==37)
+            return R.drawable.isolatedthunderstorms;
+        else if ((weatherId==38)||(weatherId==39))
+            return R.drawable.scatteredthunderstorms;
+        else if (weatherId==44)
+            return R.drawable.partlycloudy;
+        else if (weatherId==47)
+            return R.drawable.isolatedthundersowers;
+        else if (weatherId==35)
+            return R.drawable.mixedrainandhail;
+        else if ((weatherId==33)||(weatherId==34))
+            return R.drawable.fair;
+        else if ((weatherId==29)||(weatherId==30))
+            return R.drawable.partlycloudy;
+        else if ((weatherId==24))
+            return R.drawable.windy;
+        else if ((weatherId==22))
+            return R.drawable.smoke;
+        else if ((weatherId==23))
+            return R.drawable.blustery;
+        else if ((weatherId==21))
+            return R.drawable.haze;
+        else return R.drawable.icon_na;
+    }
+
     public static String BuildYahooURL(String cityName) {
         StringBuilder sb = new StringBuilder(Constants.YAHOO_BASE_URL);
         String yql = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\") and u='c'", cityName);
@@ -253,7 +299,7 @@ public class AppUtils {
         StringBuilder sb = new StringBuilder(Constants.OPENWEATHER_BASE_URL);
         sb.append(type);
         sb.append("?q=" + cityName);
-        sb.append("&mode=xml");
+        sb.append("&mode=json");
         sb.append("&units=metric");
         sb.append("&appid=" + Constants.OPENWEATHER_API_KEY);
 

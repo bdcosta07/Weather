@@ -114,8 +114,8 @@ public class WeatherPageFragment extends Fragment {
                     JSONObject query = response.getJSONObject("query");
                     JSONObject results = query.getJSONObject("results");
                     JSONObject channel = results.getJSONObject("channel");
-                    JSONObject unit = channel.getJSONObject("units");
-                    String celFar = unit.getString("temperature");
+                    //JSONObject unit = channel.getJSONObject("units");
+                    String celFar = SettingsUtils.PreferredTemperatureUnit(getActivity());
 
                     JSONObject atmosphere = channel.getJSONObject("atmosphere");
                     String humidity = atmosphere.getString("humidity");
@@ -125,7 +125,8 @@ public class WeatherPageFragment extends Fragment {
                     String sunset = astronomy.getString("sunset");
                     JSONObject item = channel.getJSONObject("item");
                     JSONObject condition = item.getJSONObject("condition");
-                    String temperature = condition.getString("temp");
+                    String temperature = AppUtils.formatTemperature(getActivity(),Double.parseDouble(condition.getString("temp")));
+                    int conditionCode = Integer.parseInt(condition.getString("code"));
                     String text = condition.getString("text");
                     String date = condition.getString("date");
 
@@ -136,7 +137,7 @@ public class WeatherPageFragment extends Fragment {
                     String speed = wind.getString("speed");
 
                     tvCelFar.setText(celFar);
-                    tvTemperature.setText(temperature + "°");
+                    tvTemperature.setText(temperature);
                     tvDescription.setText(text);
                     tvCurrentDate.setText(date);
                     tvLocation.setText(city);
@@ -144,6 +145,8 @@ public class WeatherPageFragment extends Fragment {
                     tvHumidity.setText("Humidity  " + humidity + "mph");
                     tvSunrise.setText("Sunrise   " + sunrise);
                     tvSunset.setText("Sunset    " + sunset);
+
+                    imgWeather.setImageResource(AppUtils.getArtResourceForYahooWeatherCondition(conditionCode));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
