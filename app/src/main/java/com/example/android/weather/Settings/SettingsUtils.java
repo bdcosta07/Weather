@@ -37,6 +37,8 @@ public class SettingsUtils {
     public static final String PREF_PRESSURE_UNIT = "pref_pressure_unit";
     public static final String PREF_WIND_DIRECTION_FORMAT = "pref_wind_direction_format";
 
+    public static final String PREF_RECENT_CITY = "pref_recent_city";
+
     /**
      * Helper method to register a settings_prefs listener. This method does not automatically handle
      * {@code unregisterOnSharedPreferenceChangeListener() un-registering} the listener at the end
@@ -64,7 +66,7 @@ public class SettingsUtils {
         sp.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
-    public static String PreferredLocation(Context context){
+    public static String PreferredLocation(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getString(PREF_LOCATION, context.getResources().getString(R.string.pref_location_default));
     }
@@ -92,5 +94,18 @@ public class SettingsUtils {
     public static String PreferredWindDirectionFormat(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getString(PREF_WIND_DIRECTION_FORMAT, context.getResources().getString(R.string.pref_wind_direction_format_default));
+    }
+
+    public static String GetLocation(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(PREF_RECENT_CITY, "Sylhet");
+    }
+
+    public static void saveLocation(String result, Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(PREF_RECENT_CITY, result);
+        editor.commit();
     }
 }

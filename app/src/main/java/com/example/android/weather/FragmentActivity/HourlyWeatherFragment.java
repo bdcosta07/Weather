@@ -20,7 +20,10 @@ import com.example.android.weather.Adapter.HourlyCustomAdapter;
 import com.example.android.weather.Data.Forecast;
 import com.example.android.weather.Data.HourlyWeather;
 import com.example.android.weather.R;
+import com.example.android.weather.Settings.SettingsUtils;
 import com.example.android.weather.VollyAppController.AppController;
+import com.example.android.weather.util.AppUtils;
+import com.example.android.weather.util.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +40,6 @@ public class HourlyWeatherFragment extends Fragment {
     HourlyCustomAdapter hourlyAdapter;
     ListView listView;
     TextView tvLocation;
-    String url="http://api.openweathermap.org/data/2.5/forecast?q=Dhaka&mode=json&appid=3f7228abe9f7983448ac7d087fa3b1ac";
 
     public HourlyWeatherFragment() {
     }
@@ -66,11 +68,11 @@ public class HourlyWeatherFragment extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_hourly_weather, container, false);
 
-        listView=(ListView)rootView.findViewById(R.id.lvHourlyList);
-        tvLocation=(TextView)rootView.findViewById(R.id.tvLocation);
+        listView = (ListView) rootView.findViewById(R.id.lvHourlyList);
+        tvLocation = (TextView) rootView.findViewById(R.id.tvLocation);
 
-        hourlyWeatherList=new ArrayList<>();
-        hourlyAdapter=new HourlyCustomAdapter(getActivity(),hourlyWeatherList);
+        hourlyWeatherList = new ArrayList<>();
+        hourlyAdapter = new HourlyCustomAdapter(getActivity(), hourlyWeatherList);
         getHourlyWeather();
 
 
@@ -83,12 +85,13 @@ public class HourlyWeatherFragment extends Fragment {
     }
 
     public void getHourlyWeather() {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        String location = SettingsUtils.GetLocation(getActivity());
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, AppUtils.BuildOpenWeatherURL(location, Constants.OPENWEATHER_CALL_TYPE_FORECAST), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONObject city=response.getJSONObject("city");
-                    String cityName=city.getString("name");
+                    JSONObject city = response.getJSONObject("city");
+                    String cityName = city.getString("name");
                     tvLocation.setText(cityName);
 
                     JSONArray listArray = response.getJSONArray("list");
@@ -97,17 +100,17 @@ public class HourlyWeatherFragment extends Fragment {
                         HourlyWeather hourlyWeather = new HourlyWeather();
 
                         JSONObject object = listArray.getJSONObject(i);
-                        JSONObject main=object.getJSONObject("main");
+                        JSONObject main = object.getJSONObject("main");
 
-                        double temperature =main.getDouble("temp");
+                        double temperature = main.getDouble("temp");
                         double highTemp = main.getDouble("temp_min");
                         double lowTemp = main.getDouble("temp_max");
                         //String time=object.getString("dt");
 
-                        JSONArray weatherArray=object.getJSONArray("weather");
-                        for(int j=0;j<weatherArray.length();j++){
-                            JSONObject weatherObj=weatherArray.getJSONObject(j);
-                            String description=weatherObj.getString("description");
+                        JSONArray weatherArray = object.getJSONArray("weather");
+                        for (int j = 0; j < weatherArray.length(); j++) {
+                            JSONObject weatherObj = weatherArray.getJSONObject(j);
+                            String description = weatherObj.getString("description");
 
                             hourlyWeather.setDescription(description);
                         }
@@ -142,10 +145,10 @@ public class HourlyWeatherFragment extends Fragment {
         AppController.getInstance().addToRequestQueue(request);
     }
 
-    private int arrayIndexOf(JSONArray array, String str){
-        for(int i=0;i<array.length();i++) {
+    private int arrayIndexOf(JSONArray array, String str) {
+        for (int i = 0; i < array.length(); i++) {
             try {
-                if(str.equals(array.getString(i))) {
+                if (str.equals(array.getString(i))) {
                     return i;
                 }
             } catch (JSONException e) {
