@@ -146,4 +146,7 @@
     <string name="format_wind_mps">Wind: <xliff:g id="speed">%1$1.0f</xliff:g> m/s <xliff:g id="direction">%2$s</xliff:g></string>
     <string name="and">And</string>
 
+
+    <string name="search_title">Search for city</string>
+
 </resources>

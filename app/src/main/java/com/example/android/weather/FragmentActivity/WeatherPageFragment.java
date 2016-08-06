@@ -2,11 +2,13 @@ package com.example.android.weather.FragmentActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +24,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.android.weather.Activity.ForecastActivity;
 import com.example.android.weather.Settings.SettingsActivity;
+import com.example.android.weather.Settings.SettingsUtils;
 import com.example.android.weather.VollyAppController.AppController;
 import com.example.android.weather.R;
+import com.example.android.weather.util.AppUtils;
+import com.example.android.weather.util.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,12 +37,10 @@ import org.json.JSONObject;
  * Created by Bridget on 8/2/2016.
  */
 public class WeatherPageFragment extends Fragment {
-    TextView tvTemperature, tvLocation, tvDescription,tvCurrentDate,tvCurrentDay;
-    TextView tvHighTemp, tvLowTemp,tvWind,tvHumidity,tvForecast, tvSunrise, tvSunset, tvCelFar;
+    TextView tvTemperature, tvLocation, tvDescription, tvCurrentDate, tvCurrentDay;
+    TextView tvHighTemp, tvLowTemp, tvWind, tvHumidity, tvForecast, tvSunrise, tvSunset, tvCelFar;
     ImageView imgWeather;
 
-    String url="https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22Dhaka%22)&format=json";
-    String url2="http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=3f7228abe9f7983448ac7d087fa3b1ac";
     public static final String ARG_PAGE = "page";
 
     private int mPageNumber;
@@ -66,28 +69,28 @@ public class WeatherPageFragment extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_weather_page, container, false);
 
-        tvTemperature=(TextView)rootView.findViewById(R.id.tvTemperature);
-        tvLocation=(TextView)rootView.findViewById(R.id.tvLocation);
-        tvDescription=(TextView)rootView.findViewById(R.id.tvDescription);
-        tvCurrentDay=(TextView)rootView.findViewById(R.id.tvDay);
-        tvCurrentDate=(TextView)rootView.findViewById(R.id.tvDate);
-        tvHighTemp=(TextView)rootView.findViewById(R.id.tvHighTemp);
-        tvLowTemp=(TextView)rootView.findViewById(R.id.tvLowTemp);
-        tvSunrise=(TextView)rootView.findViewById(R.id.tvSunrise);
-        tvSunset=(TextView)rootView.findViewById(R.id.tvSunset);
-        tvWind=(TextView)rootView.findViewById(R.id.tvWind);
-        tvHumidity=(TextView)rootView.findViewById(R.id.tvHumidity);
-        tvCelFar=(TextView)rootView.findViewById(R.id.tvF_C);
-        imgWeather=(ImageView) rootView.findViewById(R.id.weatherImg);
+        tvTemperature = (TextView) rootView.findViewById(R.id.tvTemperature);
+        tvLocation = (TextView) rootView.findViewById(R.id.tvLocation);
+        tvDescription = (TextView) rootView.findViewById(R.id.tvDescription);
+        tvCurrentDay = (TextView) rootView.findViewById(R.id.tvDay);
+        tvCurrentDate = (TextView) rootView.findViewById(R.id.tvDate);
+        tvHighTemp = (TextView) rootView.findViewById(R.id.tvHighTemp);
+        tvLowTemp = (TextView) rootView.findViewById(R.id.tvLowTemp);
+        tvSunrise = (TextView) rootView.findViewById(R.id.tvSunrise);
+        tvSunset = (TextView) rootView.findViewById(R.id.tvSunset);
+        tvWind = (TextView) rootView.findViewById(R.id.tvWind);
+        tvHumidity = (TextView) rootView.findViewById(R.id.tvHumidity);
+        tvCelFar = (TextView) rootView.findViewById(R.id.tvF_C);
+        imgWeather = (ImageView) rootView.findViewById(R.id.weatherImg);
 
         getCurrentWeather();
         getCurrentHighLowTemp();
 
-        tvForecast=(TextView)rootView.findViewById(R.id.tvShowForecast);
+        tvForecast = (TextView) rootView.findViewById(R.id.tvShowForecast);
         tvForecast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), ForecastActivity.class);
+                Intent intent = new Intent(getActivity(), ForecastActivity.class);
                 startActivity(intent);
             }
         });
@@ -96,51 +99,51 @@ public class WeatherPageFragment extends Fragment {
     }
 
 
-
     public int getPageNumber() {
         return mPageNumber;
     }
 
 
     //get current weather data (JSON)
-    public void getCurrentWeather(){
-        JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+    public void getCurrentWeather() {
+        String location = SettingsUtils.GetLocation(getActivity());
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, AppUtils.BuildYahooURL(location), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     JSONObject query = response.getJSONObject("query");
                     JSONObject results = query.getJSONObject("results");
                     JSONObject channel = results.getJSONObject("channel");
-                    JSONObject unit=channel.getJSONObject("units");
-                    String celFar=unit.getString("temperature");
+                    JSONObject unit = channel.getJSONObject("units");
+                    String celFar = unit.getString("temperature");
 
-                    JSONObject atmosphere=channel.getJSONObject("atmosphere");
-                    String humidity=atmosphere.getString("humidity");
+                    JSONObject atmosphere = channel.getJSONObject("atmosphere");
+                    String humidity = atmosphere.getString("humidity");
 
-                    JSONObject astronomy=channel.getJSONObject("astronomy");
-                    String sunrise=astronomy.getString("sunrise");
-                    String sunset=astronomy.getString("sunset");
+                    JSONObject astronomy = channel.getJSONObject("astronomy");
+                    String sunrise = astronomy.getString("sunrise");
+                    String sunset = astronomy.getString("sunset");
                     JSONObject item = channel.getJSONObject("item");
-                    JSONObject condition=item.getJSONObject("condition");
+                    JSONObject condition = item.getJSONObject("condition");
                     String temperature = condition.getString("temp");
-                    String text=condition.getString("text");
-                    String date=condition.getString("date");
+                    String text = condition.getString("text");
+                    String date = condition.getString("date");
 
-                    JSONObject location=channel.getJSONObject("location");
-                    String city=location.getString("city");
+                    JSONObject location = channel.getJSONObject("location");
+                    String city = location.getString("city");
 
-                    JSONObject wind=channel.getJSONObject("wind");
-                    String speed=wind.getString("speed");
+                    JSONObject wind = channel.getJSONObject("wind");
+                    String speed = wind.getString("speed");
 
                     tvCelFar.setText(celFar);
-                    tvTemperature.setText(temperature+"°");
+                    tvTemperature.setText(temperature + "°");
                     tvDescription.setText(text);
                     tvCurrentDate.setText(date);
                     tvLocation.setText(city);
-                    tvWind.setText("Wind  "+speed+"%");
-                    tvHumidity.setText("Humidity  "+humidity+"mph");
-                    tvSunrise.setText("Sunrise   "+sunrise);
-                    tvSunset.setText("Sunset    "+sunset);
+                    tvWind.setText("Wind  " + speed + "%");
+                    tvHumidity.setText("Humidity  " + humidity + "mph");
+                    tvSunrise.setText("Sunrise   " + sunrise);
+                    tvSunset.setText("Sunset    " + sunset);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -148,11 +151,11 @@ public class WeatherPageFragment extends Fragment {
 
 
             }
-        },new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(error instanceof NoConnectionError){
-                    Toast.makeText(getActivity(),"Check your internet connection",Toast.LENGTH_SHORT);
+                if (error instanceof NoConnectionError) {
+                    Toast.makeText(getActivity(), "Check your internet connection", Toast.LENGTH_SHORT);
 
                 }
             }
@@ -162,14 +165,18 @@ public class WeatherPageFragment extends Fragment {
     }
 
 
-    public void getCurrentHighLowTemp(){
-        JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
+    public void getCurrentHighLowTemp() {
+
+        String loc = SettingsUtils.GetLocation(getActivity());
+        String openUrl = AppUtils.BuildOpenWeatherURL(loc, Constants.OPENWEATHER_CALL_TYPE_CURRENT);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, openUrl, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONObject main=response.getJSONObject("main");
-                    double highTemp=main.getDouble("temp_max");
-                    double lowTemp=main.getDouble("temp_min");
+                    JSONObject main = response.getJSONObject("main");
+                    double highTemp = main.getDouble("temp_max");
+                    double lowTemp = main.getDouble("temp_min");
 
                     tvHighTemp.setText(Double.toString(highTemp));
                     tvLowTemp.setText(Double.toString(lowTemp));
@@ -180,11 +187,11 @@ public class WeatherPageFragment extends Fragment {
 
 
             }
-        },new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(error instanceof NoConnectionError){
-                    Toast.makeText(getActivity(),"Check your internet connection",Toast.LENGTH_SHORT);
+                if (error instanceof NoConnectionError) {
+                    Toast.makeText(getActivity(), "Check your internet connection", Toast.LENGTH_SHORT);
 
                 }
             }
@@ -192,5 +199,4 @@ public class WeatherPageFragment extends Fragment {
         );
         AppController.getInstance().addToRequestQueue(request);
     }
-
 }

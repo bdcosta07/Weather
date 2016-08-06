@@ -1,11 +1,24 @@
 package com.example.android.weather.util;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.os.ParcelUuid;
+import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.text.format.Time;
+import android.widget.AutoCompleteTextView;
 
 import com.example.android.weather.R;
 import com.example.android.weather.Settings.SettingsUtils;
 
+import android.view.LayoutInflater;
+import android.widget.EditText;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 
 public class AppUtils {
@@ -221,5 +234,29 @@ public class AppUtils {
             return R.drawable.art_clouds;
         }
         return -1;
+    }
+
+    public static String BuildYahooURL(String cityName) {
+        StringBuilder sb = new StringBuilder(Constants.YAHOO_BASE_URL);
+        String yql = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\") and u='c'", cityName);
+        try {
+            sb.append("?q=" + URLEncoder.encode(yql, "utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        sb.append("&format=json");
+
+        return sb.toString();
+    }
+
+    public static String BuildOpenWeatherURL(String cityName, String type) {
+        StringBuilder sb = new StringBuilder(Constants.OPENWEATHER_BASE_URL);
+        sb.append(type);
+        sb.append("?q=" + cityName);
+        sb.append("&mode=xml");
+        sb.append("&units=metric");
+        sb.append("&appid=" + Constants.OPENWEATHER_API_KEY);
+
+        return sb.toString();
     }
 }
