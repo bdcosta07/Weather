@@ -4,7 +4,7 @@ package com.example.android.weather.Data;
  * Created by Bridget on 8/5/2016.
  */
 public class HourlyWeather {
-    String weatherIcon;
+    int weatherIcon;
     double temperature;
     String time;
     double highTemp;
@@ -15,11 +15,11 @@ public class HourlyWeather {
     public HourlyWeather() {
     }
 
-    public String getWeatherIcon() {
+    public int getWeatherIcon() {
         return weatherIcon;
     }
 
-    public void setWeatherIcon(String weatherIcon) {
+    public void setWeatherIcon(int weatherIcon) {
         this.weatherIcon = weatherIcon;
     }
 

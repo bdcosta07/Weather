@@ -86,7 +86,8 @@ public class HourlyWeatherFragment extends Fragment {
 
     public void getHourlyWeather() {
         String location = SettingsUtils.GetLocation(getActivity());
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, AppUtils.BuildOpenWeatherURL(location, Constants.OPENWEATHER_CALL_TYPE_FORECAST), null, new Response.Listener<JSONObject>() {
+        String url = AppUtils.BuildOpenWeatherURL(location, Constants.OPENWEATHER_CALL_TYPE_FORECAST);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -111,8 +112,10 @@ public class HourlyWeatherFragment extends Fragment {
                         for (int j = 0; j < weatherArray.length(); j++) {
                             JSONObject weatherObj = weatherArray.getJSONObject(j);
                             String description = weatherObj.getString("description");
+                            int iconId=weatherObj.getInt("id");
 
                             hourlyWeather.setDescription(description);
+                            hourlyWeather.setWeatherIcon(AppUtils.getIconResourceForWeatherCondition(iconId));
                         }
 
                         //hourlyWeather.setTime(time);
@@ -121,6 +124,7 @@ public class HourlyWeatherFragment extends Fragment {
                         hourlyWeather.setTemperature(temperature);
 
                         hourlyWeatherList.add(hourlyWeather);
+
                     }
 
                     listView.setAdapter(hourlyAdapter);
@@ -145,16 +149,4 @@ public class HourlyWeatherFragment extends Fragment {
         AppController.getInstance().addToRequestQueue(request);
     }
 
-    private int arrayIndexOf(JSONArray array, String str) {
-        for (int i = 0; i < array.length(); i++) {
-            try {
-                if (str.equals(array.getString(i))) {
-                    return i;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return 0;
-    }
 }

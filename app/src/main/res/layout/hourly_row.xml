@@ -68,13 +68,14 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true" />
 
-        <TextView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="icon"
-            android:id="@+id/tvWeatherIcon"
+            android:textColor="@color/io15_white"
+            android:id="@+id/imgWeatherIcon"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_alignTop="@+id/tvTemp"/>
     </RelativeLayout>
 
 </RelativeLayout>
