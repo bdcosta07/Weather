@@ -1,18 +1,12 @@
 package com.example.android.weather.FragmentActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +17,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.android.weather.Activity.ForecastActivity;
-import com.example.android.weather.Settings.SettingsActivity;
 import com.example.android.weather.Settings.SettingsUtils;
 import com.example.android.weather.VollyAppController.AppController;
 import com.example.android.weather.R;
@@ -36,7 +29,12 @@ import org.json.JSONObject;
 /**
  * Created by Bridget on 8/2/2016.
  */
-public class WeatherPageFragment extends Fragment {
+
+interface Updatable {
+    public void getCurrentWeather();
+}
+
+public class WeatherPageFragment extends Fragment implements Updatable {
     TextView tvTemperature, tvLocation, tvDescription, tvCurrentDate, tvCurrentDay;
     TextView tvHighTemp, tvLowTemp, tvWind, tvHumidity, tvForecast, tvSunrise, tvSunset, tvCelFar;
     ImageView imgWeather;
