@@ -28,6 +28,7 @@
         android:layout_marginTop="10dp"
         android:singleLine="false"
         android:text="@string/current_day"
+        android:visibility="gone"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/io15_white"
         android:textSize="22sp" />
@@ -190,7 +191,6 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="0dp"
             android:text="F/C"
-            android:paddingLeft="-3dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/io15_white"
             android:textSize="30sp"

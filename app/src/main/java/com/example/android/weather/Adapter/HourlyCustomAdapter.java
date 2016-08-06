@@ -49,7 +49,7 @@ public class HourlyCustomAdapter extends ArrayAdapter {
             viewHolder.tvHourlyDesc=(TextView)rowView.findViewById(R.id.tvDescription);
             viewHolder.tvHourlyHighTemp=(TextView)rowView.findViewById(R.id.tvHigh);
             viewHolder.tvHourlyLowTemp=(TextView)rowView.findViewById(R.id.tvLow);
-            viewHolder.tvTemperature=(TextView)rowView.findViewById(R.id.tvTemp);
+            //viewHolder.tvTemperature=(TextView)rowView.findViewById(R.id.tvTemp);
             viewHolder.imgHourlyIcon=(ImageView) rowView.findViewById(R.id.imgWeatherIcon);
             //viewHolder.imgForecastWeather=(ImageView) rowView.findViewById(R.id.forecastImg);
 
@@ -59,12 +59,12 @@ public class HourlyCustomAdapter extends ArrayAdapter {
 
         String highTemp=String.valueOf(hourlyWeathertList.get(position).getHighTemp());
         String lowTemp=String.valueOf(hourlyWeathertList.get(position).getLowTemp());
-        String temp=String.valueOf(hourlyWeathertList.get(position).getTemperature());
+        //String temp=String.valueOf(hourlyWeathertList.get(position).getTemperature());
 
         viewHolder.tvHourlyTime.setText(hourlyWeathertList.get(position).getTime());
         viewHolder.tvHourlyDesc.setText(hourlyWeathertList.get(position).getDescription());
         viewHolder.imgHourlyIcon.setImageResource(hourlyWeathertList.get(position).getWeatherIcon());
-        viewHolder.tvTemperature.setText(temp);
+        //viewHolder.tvTemperature.setText(temp);
         viewHolder.tvHourlyHighTemp.setText(highTemp+"° ↑");
         viewHolder.tvHourlyLowTemp.setText(lowTemp+"° ↓");
 

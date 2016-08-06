@@ -103,7 +103,7 @@ public class HourlyWeatherFragment extends Fragment {
                         JSONObject object = listArray.getJSONObject(i);
                         JSONObject main = object.getJSONObject("main");
 
-                        double temperature = main.getDouble("temp");
+                        //double temperature = main.getDouble("temp");
                         double highTemp = main.getDouble("temp_min");
                         double lowTemp = main.getDouble("temp_max");
                         //String time=object.getString("dt");
@@ -121,7 +121,7 @@ public class HourlyWeatherFragment extends Fragment {
                         //hourlyWeather.setTime(time);
                         hourlyWeather.setHighTemp(highTemp);
                         hourlyWeather.setLowTemp(lowTemp);
-                        hourlyWeather.setTemperature(temperature);
+                        //hourlyWeather.setTemperature(temperature);
 
                         hourlyWeatherList.add(hourlyWeather);
 
