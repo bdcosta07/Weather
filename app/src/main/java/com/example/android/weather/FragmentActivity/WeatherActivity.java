@@ -2,6 +2,7 @@ package com.example.android.weather.FragmentActivity;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
@@ -15,7 +16,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -74,6 +77,7 @@ public class WeatherActivity extends BaseActivity implements Toolbar.OnMenuItemC
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new WeatherPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        mPager.setOnPageChangeListener(mPageChangeListener);
 
         drawPageSelectionIndicators(0);
 
@@ -88,6 +92,23 @@ public class WeatherActivity extends BaseActivity implements Toolbar.OnMenuItemC
 
         dialog = new ProgressDialog(WeatherActivity.this);
     }
+
+    private ViewPager.OnPageChangeListener mPageChangeListener=new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 
     private void drawPageSelectionIndicators(int mPosition) {
         if (linearLayout != null) {
@@ -135,7 +156,30 @@ public class WeatherActivity extends BaseActivity implements Toolbar.OnMenuItemC
         public int getCount() {
             return NUM_PAGES;
         }
+
+        @Override
+        public int getItemPosition(Object object) {
+            /*if (object instanceof HourlyWeatherFragment) {
+                ((HourlyWeatherFragment) object).getHourlyWeather();
+            } else if (object instanceof WeatherPageFragment) {
+                ((WeatherPageFragment) object).getCurrentWeather();
+            }
+            return super.getItemPosition(object);*/
+            return PagerAdapter.POSITION_NONE;
+        }
     }
+
+    /**
+     * To update fragment in ViewPager, we should call PagerAdapter.notifyDataSetChanged() when data changed.
+     * we should also override FragmentPagerAdapter.getItemPosition(), and
+     * implement a public method for updating fragment.
+     * Refer to [Update Fragment from ViewPager](http://stackoverflow.com/a/18088509/2722270)
+     */
+    private void notifyViewPagerDataSetChanged() {
+        //Log.d(TAG, "\nnotifyDataSetChanged()");
+        mPagerAdapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,11 +207,35 @@ public class WeatherActivity extends BaseActivity implements Toolbar.OnMenuItemC
                 GetCityByLocation();
                 return true;
             case R.id.action_set_location:
-                //buildGoogleClient();
-                //handleSearch();
-                //AppUtils.SearchCity(this);
+                searchCities();
+                return true;
         }
         return false;
+    }
+
+    private void searchCities() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(this.getString(R.string.search_title));
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setMaxLines(1);
+        input.setSingleLine(true);
+        alert.setView(input, 32, 0, 32, 0);
+        alert.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String result = input.getText().toString();
+                if (!result.isEmpty()) {
+                    SettingsUtils.saveLocation(result, WeatherActivity.this);
+                    notifyViewPagerDataSetChanged();
+                }
+            }
+        });
+        alert.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Cancelled
+            }
+        });
+        alert.show();
     }
 
     void GetCityByLocation() {
@@ -246,6 +314,8 @@ public class WeatherActivity extends BaseActivity implements Toolbar.OnMenuItemC
                 }
                 String cityName = addresses.get(0).getLocality();
                 SettingsUtils.saveLocation(cityName, this);
+
+                notifyViewPagerDataSetChanged();
             } else {
                 Toast.makeText(this, "No location is detected", Toast.LENGTH_LONG).show();
             }
