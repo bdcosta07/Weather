@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -79,6 +80,10 @@ public class WeatherActivity extends BaseActivity implements Toolbar.OnMenuItemC
         mPager.setAdapter(mPagerAdapter);
         mPager.setOnPageChangeListener(mPageChangeListener);
 
+        ActionBar bar = getSupportActionBar();
+        if (bar != null)
+            bar.setTitle("");
+
         drawPageSelectionIndicators(0);
 
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -93,7 +98,7 @@ public class WeatherActivity extends BaseActivity implements Toolbar.OnMenuItemC
         dialog = new ProgressDialog(WeatherActivity.this);
     }
 
-    private ViewPager.OnPageChangeListener mPageChangeListener=new ViewPager.OnPageChangeListener() {
+    private ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

@@ -106,19 +106,19 @@ public class HourlyWeatherFragment extends Fragment {
                         //double temperature = main.getDouble("temp");
                         double highTemp = main.getDouble("temp_min");
                         double lowTemp = main.getDouble("temp_max");
-                        //String time=object.getString("dt");
+                        Long time = object.getLong("dt");
 
                         JSONArray weatherArray = object.getJSONArray("weather");
                         for (int j = 0; j < weatherArray.length(); j++) {
                             JSONObject weatherObj = weatherArray.getJSONObject(j);
                             String description = weatherObj.getString("description");
-                            int iconId=weatherObj.getInt("id");
+                            int iconId = weatherObj.getInt("id");
 
                             hourlyWeather.setDescription(description);
                             hourlyWeather.setWeatherIcon(AppUtils.getIconResourceForWeatherCondition(iconId));
                         }
 
-                        //hourlyWeather.setTime(time);
+                        hourlyWeather.setTime(AppUtils.getFormattedTime(getActivity(), time));
                         hourlyWeather.setHighTemp(highTemp);
                         hourlyWeather.setLowTemp(lowTemp);
                         //hourlyWeather.setTemperature(temperature);

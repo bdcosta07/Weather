@@ -176,11 +176,11 @@ public class WeatherPageFragment extends Fragment implements Updatable {
             public void onResponse(JSONObject response) {
                 try {
                     JSONObject main = response.getJSONObject("main");
-                    double highTemp = main.getDouble("temp_max");
-                    double lowTemp = main.getDouble("temp_min");
+                    String highTemp = AppUtils.formatTemperature(getActivity(),main.getDouble("temp_max"));
+                    String lowTemp = AppUtils.formatTemperature(getActivity(),main.getDouble("temp_min"));
 
-                    tvHighTemp.setText(Double.toString(highTemp));
-                    tvLowTemp.setText(Double.toString(lowTemp));
+                    tvHighTemp.setText(highTemp);
+                    tvLowTemp.setText(lowTemp);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -19,7 +19,10 @@ import android.widget.EditText;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class AppUtils {
     public static String formatTemperature(Context context, double temperature) {
@@ -126,6 +129,15 @@ public class AppUtils {
         SimpleDateFormat monthDayFormat = new SimpleDateFormat("MMMM dd");
         String monthDayString = monthDayFormat.format(dateInMillis);
         return monthDayString;
+    }
+
+    public static String getFormattedTime(Context context, long dateInMillis){
+//        SimpleDateFormat monthDayFormat = new SimpleDateFormat("h:mm a");
+//        String timeString = monthDayFormat.format(dateInMillis);
+        Date date = new Date(dateInMillis);
+        DateFormat formatter = new SimpleDateFormat("h:mm a");
+        String timeString = formatter.format(date);
+        return timeString;
     }
 
     public static String getFormattedWind(Context context, float windSpeed, float degrees) {
